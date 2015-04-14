@@ -1,0 +1,16 @@
+package com.talos.invertedindex;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
+        InvertedIndex invertedIndex= new InvertedIndex();
+        System.out.println(invertedIndex.get("music"));
+        System.out.println(invertedIndex.get("Grisham's"));
+        
+    }
+}

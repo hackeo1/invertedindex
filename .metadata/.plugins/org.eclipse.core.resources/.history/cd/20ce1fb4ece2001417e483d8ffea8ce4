@@ -1,0 +1,75 @@
+package com.talos.invertedindex;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+import javax.print.attribute.standard.MediaSize.Other;
+
+public class InvertedIndex {
+	
+	//variables globales
+	String[] data = new String[]{ 
+			 "A brilliant, festive study of JS Bach uses literature and painting to illuminate his 'dance-impregnated' music, writes Peter Conrad", 
+			 "Fatima Bhutto on Malala Yousafzai's fearless and still-controversial memoir", 
+			 "Grisham's sequel to A Time to Kill is a solid courtroom drama about racial prejudice marred by a flawless white hero, writes John O'Connell", 
+			 "This strange repackaging of bits and pieces does the Man Booker winner no favours, says Sam Leith", 
+			 "Another book with music related content" 
+			    }; 
+	
+	Map<String, ArrayList<Integer>> map = 
+			new HashMap<String, ArrayList<Integer>>();
+	
+	//constructor
+	public InvertedIndex(){
+		organizeAll();
+	}
+	
+	//organiza todo
+	private void organizeAll(){
+		for(int i = 0 ;i <data.length;i++){
+			organizeString(i);
+		}
+	}
+	
+	//organiza un string
+	private void organizeString(int index){
+		StringTokenizer tokens = new StringTokenizer(data[index]);
+		while (tokens.hasMoreTokens()) {
+			String word = tokens.nextToken();
+			boolean outList = checkWord(index,word);
+			if(outList){
+				ArrayList<Integer> list = map.get(word);
+				list.add(index);
+				map.put(word, list);
+			}
+		}
+	}
+	
+	//chequea que la palabra no se haya agregado
+	private boolean checkWord(int index, String word){
+		boolean outList = true;
+		ArrayList<Integer> list = map.get(word);
+		if(list!=null){
+			for (int i = 0; i < list.size(); i++) {
+				if(list.get(i)==index){
+					outList = false;
+					break;
+				}
+			}
+		}
+		return outList;
+	}
+	
+	//metodo para devolver
+	public String[] get(String word){
+		ArrayList<Integer> list = map.get(word);
+		String[] result = new String [list.size()];
+		for (int i = 0; i < result.length; i++) {
+			result[i]=data[list.get(i)];
+		}
+		return result;
+	}
+	
+}
